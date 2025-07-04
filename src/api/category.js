@@ -1,5 +1,6 @@
 import express from "express";
 import { getAllCategories, saveCategory, findCategoryById, updateCategory, deleteCategory } from "../application/category.js";
+import isAuthorized from "./middleware/authentication-middleware.js";
 
 const categoryRouter = express.Router();
 categoryRouter.use(express.json());

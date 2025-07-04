@@ -1,7 +1,6 @@
 import express from "express";
 import { getAllProducts, saveProduct, updatedProduct, deleteProduct, findById } from "../application/product.js";
 import isAuthorized from "./middleware/authentication-middleware.js";
-
 const productRouter = express.Router();
 productRouter.use(express.json());
 
