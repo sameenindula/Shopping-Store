@@ -17,3 +17,6 @@ const categorySchema = new mongoose.Schema({
         default: 0
     }
 });
+
+const category = mongoose.model('category', categorySchema);
+export default category;

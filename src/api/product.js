@@ -1,5 +1,6 @@
 import express from "express";
 import { getAllProducts, saveProduct, updatedProduct, deleteProduct, findById } from "../application/product.js";
+import isAuthorized from "./middleware/authentication-middleware.js";
 
 const productRouter = express.Router();
 productRouter.use(express.json());
@@ -8,13 +9,13 @@ productRouter.use(express.json());
 productRouter
     .route('/')
     .get(getAllProducts)
-    .post(saveProduct);
+    .post(isAuthorized, saveProduct);
 
 // Update a product
 productRouter
     .route('/:id')
-    .put(updatedProduct)
-    .delete(deleteProduct)
+    .put(isAuthorized, updatedProduct)
+    .delete(isAuthorized, deleteProduct)
     .get(findById);
 
 

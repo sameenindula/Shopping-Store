@@ -8,7 +8,7 @@ categoryRouter.use(express.json());
 categoryRouter
     .route('/')
     .get(getAllCategories)
-    .post(saveCategory);
+    .post(isAuthorized, saveCategory);
 
 categoryRouter
     .route('/:id')

@@ -1,11 +1,23 @@
 import product from '../infrastructure/entity/product.js';
 
-const getAllProducts = async(req, res) => {
-    const products = await product.find();
-    if (!products || products.length === 0) {
-        return res.status(404).json({ error: 'No products found' });
+const getAllProducts = async(req, res, next) => {
+    try {
+        const categoryId = req.query.categoryId
+        if (categoryId) {
+            const products = await product.find({ categoryId }).populate('categoryId');
+            res.json(products);
+        } else {
+            const products = await product.find();
+            if (!products || products.length === 0) {
+                return res.status(404).json({ error: 'No products found' });
+            }
+            res.json(products);
+        }
+    } catch (error) {
+        next(error);
+
     }
-    res.json(products);
+
 
 };
 
@@ -25,16 +37,16 @@ const saveProduct = async(req, res) => {
 };
 
 const updatedProduct = async(req, res) => {
-    const productIndex = await product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (productIndex === -1) {
+    const updated = await product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) {
         return res.status(404).json({ error: 'Product not found' });
     }
-    res.json(updatedProduct);
+    res.json(updated);
 };
 
 const deleteProduct = async(req, res) => {
-    const productIndex = await product.findByIdAndDelete(req.params.id);
-    if (productIndex === -1) {
+    const deleted = await product.findByIdAndDelete(req.params.id);
+    if (!deleted) {
         return res.status(404).json({ error: 'Product not found' });
     }
     res.status(204).send();

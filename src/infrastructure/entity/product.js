@@ -2,15 +2,12 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
     categoryId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "category",
         required: true,
         trim: true,
     },
-    colorId: {
-        type: String,
-        required: true,
-        trim: true,
-    },
+
     image: {
         type: String,
         required: true,
@@ -40,6 +37,11 @@ const productSchema = new mongoose.Schema({
     featured: {
         type: Boolean,
         default: false,
+    },
+    review: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "review",
+        default: []
     },
     __v: {
         type: Number,
